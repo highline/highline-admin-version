@@ -8,4 +8,3 @@
 - add @nullable to version detector
 - add javadoc to version detector
 - clean up version detector
-- pass checkstyle + findbugs

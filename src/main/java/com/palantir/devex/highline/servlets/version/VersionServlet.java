@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class VersionServlet extends HttpServlet {
+    private static final long serialVersionUID = -824801600456930313L;
     private final String version;
 
     public VersionServlet(String version) {

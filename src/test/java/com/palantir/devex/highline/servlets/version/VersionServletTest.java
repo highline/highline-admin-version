@@ -1,8 +1,8 @@
 package com.palantir.devex.highline.servlets.version;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -29,8 +29,8 @@ public class VersionServletTest {
     private HttpServletRequest request = mock(HttpServletRequest.class);
     private HttpServletResponse response = mock(HttpServletResponse.class);
 
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    private PrintWriter printWriter = new PrintWriter(baos);
+    private StringWriter stringWriter = new StringWriter();
+    private PrintWriter printWriter = new PrintWriter(stringWriter);
 
     @Before
     public void before() throws IOException {
@@ -38,9 +38,12 @@ public class VersionServletTest {
         when(request.getMethod()).thenReturn("GET");
     }
 
-    private void assertVersionMatches(Servlet servlet, String version) throws ServletException, IOException {
+    private void assertVersionsMatch(Servlet servlet, String version) throws ServletException, IOException {
         servlet.service(request, response);
-        assertThat(baos.toString(), startsWith(version));
+        String expectedVersion = version + "\n";
+        String actualVersion = stringWriter.toString();
+
+        assertThat(actualVersion, equalTo(expectedVersion));
     }
 
     private void setVersionTo(String version) {
@@ -53,7 +56,7 @@ public class VersionServletTest {
         String version = "1.0.0";
         Servlet servlet = VersionServlet.withVersion(version);
 
-        assertVersionMatches(servlet, version);
+        assertVersionsMatch(servlet, version);
     }
 
     @Test
@@ -61,7 +64,7 @@ public class VersionServletTest {
         String version = "1.2.3";
         Servlet servlet = VersionServlet.withVersion(version);
 
-        assertVersionMatches(servlet, version);
+        assertVersionsMatch(servlet, version);
     }
 
     @Test(expected = NullPointerException.class)
@@ -86,7 +89,7 @@ public class VersionServletTest {
         setVersionTo(version);
         Servlet servlet = VersionServlet.deriveVersion();
 
-        assertVersionMatches(servlet, version);
+        assertVersionsMatch(servlet, version);
     }
 
     @Test
@@ -95,6 +98,6 @@ public class VersionServletTest {
         setVersionTo(version);
         Servlet servlet = VersionServlet.deriveVersion();
 
-        assertVersionMatches(servlet, version);
+        assertVersionsMatch(servlet, version);
     }
 }
