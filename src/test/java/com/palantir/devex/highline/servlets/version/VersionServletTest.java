@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -25,22 +26,34 @@ import static org.mockito.Mockito.when;
 @PrepareForTest(VersionDetector.class)
 public class VersionServletTest {
 
+    private HttpServletRequest request = mock(HttpServletRequest.class);
+    private HttpServletResponse response = mock(HttpServletResponse.class);
+
+    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    private PrintWriter printWriter = new PrintWriter(baos);
+
+    @Before
+    public void before() throws IOException {
+        when(response.getWriter()).thenReturn(printWriter);
+        when(request.getMethod()).thenReturn("GET");
+    }
+
+    private void assertVersionMatches(Servlet servlet, String version) throws ServletException, IOException {
+        servlet.service(request, response);
+        assertThat(baos.toString(), startsWith(version));
+    }
+
+    private void setVersionTo(String version) {
+        PowerMockito.mockStatic(VersionDetector.class);
+        when(VersionDetector.detectVersion()).thenReturn(version);
+    }
+
     @Test
     public void takesHardcodedVersion() throws ServletException, IOException {
         String version = "1.0.0";
         Servlet servlet = VersionServlet.withVersion(version);
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter printWriter = new PrintWriter(baos);
-
-        when(response.getWriter()).thenReturn(printWriter);
-        when(request.getMethod()).thenReturn("GET");
-        servlet.service(request, response);
-
-        assertThat(baos.toString(), startsWith(version));
+        assertVersionMatches(servlet, version);
     }
 
     @Test
@@ -48,17 +61,7 @@ public class VersionServletTest {
         String version = "1.2.3";
         Servlet servlet = VersionServlet.withVersion(version);
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter printWriter = new PrintWriter(baos);
-
-        when(response.getWriter()).thenReturn(printWriter);
-        when(request.getMethod()).thenReturn("GET");
-        servlet.service(request, response);
-
-        assertThat(baos.toString(), startsWith(version));
+        assertVersionMatches(servlet, version);
     }
 
     @Test(expected = NullPointerException.class)
@@ -70,14 +73,6 @@ public class VersionServletTest {
     public void checkHttpMetaData() throws ServletException, IOException {
         Servlet servlet = VersionServlet.withVersion("1.0.0");
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter printWriter = new PrintWriter(baos);
-
-        when(response.getWriter()).thenReturn(printWriter);
-        when(request.getMethod()).thenReturn("GET");
         servlet.service(request, response);
 
         verify(response).setStatus(eq(200));
@@ -91,17 +86,7 @@ public class VersionServletTest {
         setVersionTo(version);
         Servlet servlet = VersionServlet.deriveVersion();
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter printWriter = new PrintWriter(baos);
-
-        when(response.getWriter()).thenReturn(printWriter);
-        when(request.getMethod()).thenReturn("GET");
-        servlet.service(request, response);
-
-        assertThat(baos.toString(), startsWith(version));
+        assertVersionMatches(servlet, version);
     }
 
     @Test
@@ -110,21 +95,6 @@ public class VersionServletTest {
         setVersionTo(version);
         Servlet servlet = VersionServlet.deriveVersion();
 
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter printWriter = new PrintWriter(baos);
-
-        when(response.getWriter()).thenReturn(printWriter);
-        when(request.getMethod()).thenReturn("GET");
-        servlet.service(request, response);
-
-        assertThat(baos.toString(), startsWith(version));
-    }
-
-    private void setVersionTo(String version) {
-        PowerMockito.mockStatic(VersionDetector.class);
-        when(VersionDetector.detectVersion()).thenReturn(version);
+        assertVersionMatches(servlet, version);
     }
 }
