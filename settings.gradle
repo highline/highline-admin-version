@@ -1,0 +1,4 @@
+rootProject.name = "highline-admin-version"
+
+include "highline-version-servlet"
+include "highline-version-bundle"
