@@ -79,9 +79,9 @@ public class VersionServletTest {
 
         servlet.service(request, response);
 
-        verify(response).setStatus(eq(200));
-        verify(response).setContentType(eq("text/plain"));
-        verify(response).addHeader(eq("Cache-Control"), eq("must-revalidate,no-cache,no-store"));
+        verify(response).setStatus(eq(VersionServlet.RESPONSE_STATUS));
+        verify(response).setContentType(eq(VersionServlet.CONTENT_TYPE));
+        verify(response).addHeader(eq(VersionServlet.HEADER_CACHE_CONTROL), eq(VersionServlet.CACHE_CONTROL));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class VersionServletTest {
         servlet.service(request, response);
 
         String actualVersion = stringWriter.toString();
-        String expectedVersion = version + "-dev-";
+        String expectedVersion = version + VersionServlet.DEFAULT_MIDFIX;
         assertThat(actualVersion, startsWith(expectedVersion));
     }
 

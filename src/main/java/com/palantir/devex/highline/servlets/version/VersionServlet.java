@@ -10,6 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public class VersionServlet extends HttpServlet {
     private static final long serialVersionUID = -824801600456930313L;
+
+    static final String DEFAULT_MIDFIX = "-dev-";
+    static final int RESPONSE_STATUS = HttpServletResponse.SC_OK;
+    static final String CONTENT_TYPE = "text/plain";
+    static final String HEADER_CACHE_CONTROL = "Cache-Control";
+    static final String CACHE_CONTROL = "must-revalidate,no-cache,no-store";
+
     private final String version;
 
     public VersionServlet(String version) {
@@ -32,7 +39,7 @@ public class VersionServlet extends HttpServlet {
 
         if (detectedVersion == null) {
             // could not detect a version, build a dynamic using prefix
-            detectedVersion = defaultVersionPrefix + "-dev-" + System.currentTimeMillis();
+            detectedVersion = defaultVersionPrefix + DEFAULT_MIDFIX + System.currentTimeMillis();
         }
 
         return new VersionServlet(detectedVersion);
@@ -43,9 +50,9 @@ public class VersionServlet extends HttpServlet {
             HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("text/plain");
-        response.addHeader("Cache-Control", "must-revalidate,no-cache,no-store");
+        response.setStatus(RESPONSE_STATUS);
+        response.setContentType(CONTENT_TYPE);
+        response.addHeader(HEADER_CACHE_CONTROL, CACHE_CONTROL);
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println(version);
