@@ -20,4 +20,8 @@ dependencies {
     testCompile "junit:junit:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testCompile "org.powermock:powermock-module-junit4:$powermockVersion"
+    testCompile "org.powermock:powermock-api-mockito:$powermockVersion"
+    testCompile "io.dropwizard:dropwizard-testing:$dropwizardVersion"
+    testCompile "io.dropwizard:dropwizard-client:$dropwizardVersion"
 }

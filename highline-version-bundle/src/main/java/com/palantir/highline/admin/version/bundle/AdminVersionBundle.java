@@ -20,17 +20,17 @@ public class AdminVersionBundle implements Bundle {
     @Override
     public void run(Environment environment) {
         environment.admin()
-                .addServlet(SERVLET_NAME, VersionServlet.withFixedVersion(""))
+                .addServlet(SERVLET_NAME, VersionServlet.withFixedVersion("thisShouldntWork"))
                 .addMapping(SERVLET_URL);
     }
 
     public static Bundle withFixedVersion(String version) {
         Preconditions.checkNotNull(version, "Version cannot be null.");
-        return null;
+        return new AdminVersionBundle();
     }
 
     public static Bundle detectVersion(String defaultVersionPrefix) {
         Preconditions.checkNotNull(defaultVersionPrefix, "Version cannot be null.");
-        return null;
+        return new AdminVersionBundle();
     }
 }
