@@ -18,10 +18,14 @@ public class VersionServlet extends HttpServlet {
 
     @Override
     protected void doGet(
-            HttpServletRequest req,
-            HttpServletResponse resp) throws ServletException, IOException {
+            HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
 
-        try (PrintWriter writer = resp.getWriter()) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/plain");
+        response.addHeader("Cache-Control", "must-revalidate,no-cache,no-store");
+
+        try (PrintWriter writer = response.getWriter()) {
             writer.println("1.0.0");
         }
     }
