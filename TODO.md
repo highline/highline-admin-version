@@ -1,12 +1,12 @@
 - put the versions into gradle.properties
-- clean up constructor. move the null check to there.
 - clean out codequality folder
-- add javadoc to version detector
-- clean up version detector
 
+- add javadoc to version detector
+- add javadoc to version servlet
+
+- clean up version detector
+- tests for versionDetector
 
 - break into own module / multimodule
 - add dropwizard bundle
 - add dropwizard integration tests
-
-- tests for versionDetector

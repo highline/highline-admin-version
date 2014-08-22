@@ -19,14 +19,15 @@ public class VersionServlet extends HttpServlet {
 
     private final String version;
 
-    public VersionServlet(String version) {
+    VersionServlet(String version) {
+        if (version == null) {
+            throw new NullPointerException("Version cannot be null.");
+        }
+
         this.version = version;
     }
 
     public static Servlet withFixedVersion(String version) {
-        if (version == null) {
-            throw new NullPointerException("Version cannot be null.");
-        }
         return new VersionServlet(version);
     }
 
