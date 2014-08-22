@@ -1,4 +1,4 @@
-package com.palantir.devex.highline.servlets.version;
+package com.palantir.highline.servlets.version;
 
 import java.io.IOException;
 import java.io.PrintWriter;
