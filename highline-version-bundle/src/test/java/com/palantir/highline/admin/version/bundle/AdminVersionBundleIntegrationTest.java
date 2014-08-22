@@ -65,7 +65,7 @@ public class AdminVersionBundleIntegrationTest {
         }
     }
 
-    public static abstract class BaseTest {
+    public abstract static class BaseTest {
         private final String expectedVersion;
 
         public BaseTest(String expectedVersion) {
@@ -75,7 +75,7 @@ public class AdminVersionBundleIntegrationTest {
         public abstract DropwizardAppRule getRule();
 
         @Test
-        public void fixedServletWorks() throws IOException {
+        public void checkSevletReturnsVersion() throws IOException {
             HttpClient client = HttpClients.createDefault();
             HttpGet get = new HttpGet("http://127.0.0.1:" + getRule().getAdminPort() + "/version");
             HttpResponse response = client.execute(get);
@@ -90,7 +90,7 @@ public class AdminVersionBundleIntegrationTest {
         public DropwizardAppRule<Configuration> rule = new DropwizardAppRule<>(FixedVersion.class, CONFIG_FIXED);
 
         public FixedTest() {
-            super("1.0.0\n");
+            super(FIXED_VERSION + "\n");
         }
 
         @Override
@@ -104,7 +104,7 @@ public class AdminVersionBundleIntegrationTest {
         public DropwizardAppRule<Configuration> rule = new DropwizardAppRule<>(DetectedVersion.class, CONFIG_DETECT);
 
         public DetectTest() {
-            super("expected");
+            super(DEFAULT_VERSION_PREFIX + VersionServlet.DEFAULT_MIDFIX);
         }
 
         @Override
