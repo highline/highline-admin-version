@@ -1,10 +1,12 @@
 - put the versions into gradle.properties
-- add default version to derived version method
-- add dynamically created version via timestamp
-- put cache header, status and content type in public static finals
+- use in public static finals in VersionServlet
+- use in public static finals in VersionServletTest
 - clean up constructor. move the null check to there.
 - clean out codequality folder
-- make sure to deal with getImplementationVersion returning null 
-- add @nullable to version detector
-- add javadoc to version detector
+-  add javadoc to version detector
 - clean up version detector
+
+
+- break into own module / multimodule
+- add dropwizard bundle
+- add dropwizard integration tests

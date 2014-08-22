@@ -16,16 +16,26 @@ public class VersionServlet extends HttpServlet {
         this.version = version;
     }
 
-    public static Servlet withVersion(String version) {
+    public static Servlet withFixedVersion(String version) {
         if (version == null) {
             throw new NullPointerException("Version cannot be null.");
         }
         return new VersionServlet(version);
     }
 
-    public static Servlet deriveVersion() {
-        String derivedVersion = VersionDetector.detectVersion();
-        return new VersionServlet(derivedVersion);
+    public static Servlet detectVersion(String defaultVersionPrefix) {
+        if (defaultVersionPrefix == null) {
+            throw new NullPointerException("Default Version Prefix cannot be null.");
+        }
+
+        String detectedVersion = VersionDetector.detectVersion();
+
+        if (detectedVersion == null) {
+            // could not detect a version, build a dynamic using prefix
+            detectedVersion = defaultVersionPrefix + "-dev-" + System.currentTimeMillis();
+        }
+
+        return new VersionServlet(detectedVersion);
     }
 
     @Override

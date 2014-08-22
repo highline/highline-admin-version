@@ -16,6 +16,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -52,29 +53,29 @@ public class VersionServletTest {
     }
 
     @Test
-    public void takesHardcodedVersion() throws ServletException, IOException {
+    public void takesFixedVersion() throws ServletException, IOException {
         String version = "1.0.0";
-        Servlet servlet = VersionServlet.withVersion(version);
+        Servlet servlet = VersionServlet.withFixedVersion(version);
 
         assertVersionsMatch(servlet, version);
     }
 
     @Test
-    public void takesAnotherHardcodedVersion() throws ServletException, IOException {
+    public void takesAnotherFixedVersion() throws ServletException, IOException {
         String version = "1.2.3";
-        Servlet servlet = VersionServlet.withVersion(version);
+        Servlet servlet = VersionServlet.withFixedVersion(version);
 
         assertVersionsMatch(servlet, version);
     }
 
     @Test(expected = NullPointerException.class)
-    public void explicitVersionCannotBeNull() {
-        VersionServlet.withVersion(null);
+    public void fixedVersionCannotBeNull() {
+        VersionServlet.withFixedVersion(null);
     }
 
     @Test
     public void checkHttpMetaData() throws ServletException, IOException {
-        Servlet servlet = VersionServlet.withVersion("1.0.0");
+        Servlet servlet = VersionServlet.withFixedVersion("1.0.0");
 
         servlet.service(request, response);
 
@@ -84,20 +85,38 @@ public class VersionServletTest {
     }
 
     @Test
-    public void canDeriveVersion() throws IOException, ServletException {
+    public void canDetectVersion() throws IOException, ServletException {
         String version = "1.0.0";
         setVersionTo(version);
-        Servlet servlet = VersionServlet.deriveVersion();
+        Servlet servlet = VersionServlet.detectVersion(version);
 
         assertVersionsMatch(servlet, version);
     }
 
     @Test
-    public void canDeriveAnotherVersion() throws IOException, ServletException {
+    public void canDetectAnotherVersion() throws IOException, ServletException {
         String version = "1.2.3";
         setVersionTo(version);
-        Servlet servlet = VersionServlet.deriveVersion();
+        Servlet servlet = VersionServlet.detectVersion(version);
 
         assertVersionsMatch(servlet, version);
+    }
+
+    @Test
+    public void usesDynamicVersionWhenCantDerive() throws IOException, ServletException {
+        setVersionTo(null);
+        String version = "1.0.0";
+        Servlet servlet = VersionServlet.detectVersion(version);
+
+        servlet.service(request, response);
+
+        String actualVersion = stringWriter.toString();
+        String expectedVersion = version + "-dev-";
+        assertThat(actualVersion, startsWith(expectedVersion));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void detectVersionDefaultCannotBeNull() {
+        VersionServlet.detectVersion(null);
     }
 }
