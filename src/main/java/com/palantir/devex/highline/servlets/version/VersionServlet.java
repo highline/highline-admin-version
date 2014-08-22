@@ -9,11 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class VersionServlet extends HttpServlet {
+    private final String version;
+
+    public VersionServlet(String version) {
+        this.version = version;
+    }
+
     public static Servlet withVersion(String version) {
         if (version == null) {
             throw new NullPointerException("Version cannot be null.");
         }
-        return new VersionServlet();
+        return new VersionServlet(version);
     }
 
     @Override
@@ -26,7 +32,7 @@ public class VersionServlet extends HttpServlet {
         response.addHeader("Cache-Control", "must-revalidate,no-cache,no-store");
 
         try (PrintWriter writer = response.getWriter()) {
-            writer.println("1.0.0");
+            writer.println(version);
         }
     }
 }

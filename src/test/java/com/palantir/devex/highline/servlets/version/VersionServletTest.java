@@ -35,6 +35,24 @@ public class VersionServletTest {
         assertThat(baos.toString(), startsWith(version));
     }
 
+    @Test
+    public void takesAnotherHardcodedVersion() throws ServletException, IOException {
+        String version = "1.2.3";
+        Servlet servlet = VersionServlet.withVersion(version);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintWriter printWriter = new PrintWriter(baos);
+
+        when(response.getWriter()).thenReturn(printWriter);
+        when(request.getMethod()).thenReturn("GET");
+        servlet.service(request, response);
+
+        assertThat(baos.toString(), startsWith(version));
+    }
+
     @Test(expected = NullPointerException.class)
     public void explicitVersionCannotBeNull() {
         VersionServlet.withVersion(null);
