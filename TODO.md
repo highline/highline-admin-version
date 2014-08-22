@@ -1,7 +1,12 @@
 - put the versions into gradle.properties
-- add ability to derive version
 - add default version to derived version method
 - add dynamically created version via timestamp
 - refactor test code to clean up the mocking + checking
 - put cache header, status and content type in public static finals
 - clean up constructor. move the null check to there.
+- clean out codequality folder
+- make sure to deal with getImplementationVersion returning null 
+- add @nullable to version detector
+- add javadoc to version detector
+- clean up version detector
+- pass checkstyle + findbugs

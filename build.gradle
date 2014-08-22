@@ -19,4 +19,6 @@ dependencies {
     testCompile "junit:junit:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testCompile "org.powermock:powermock-module-junit4:1.5.4"
+    testCompile "org.powermock:powermock-api-mockito:1.5.4"
 }

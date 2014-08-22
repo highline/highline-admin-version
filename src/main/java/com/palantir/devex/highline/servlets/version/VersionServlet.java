@@ -22,6 +22,11 @@ public class VersionServlet extends HttpServlet {
         return new VersionServlet(version);
     }
 
+    public static Servlet deriveVersion() {
+        String derivedVersion = VersionDetector.detectVersion();
+        return new VersionServlet(derivedVersion);
+    }
+
     @Override
     protected void doGet(
             HttpServletRequest request,
