@@ -34,4 +34,9 @@ public class VersionServletTest {
 
         assertThat(baos.toString(), startsWith(version));
     }
+
+    @Test(expected = NullPointerException.class)
+    public void explicitVersionCannotBeNull() {
+        VersionServlet.withVersion(null);
+    }
 }

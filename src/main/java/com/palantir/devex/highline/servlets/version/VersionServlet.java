@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class VersionServlet extends HttpServlet {
-
     public static Servlet withVersion(String version) {
+        if (version == null) {
+            throw new NullPointerException("Version cannot be null.");
+        }
         return new VersionServlet();
     }
 
