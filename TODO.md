@@ -1,0 +1,4 @@
+- put the versions into gradle.properties
+- add caching headers to the servlet
+- add ability to derive version
+- refactor test code to clean up the mocking + checking

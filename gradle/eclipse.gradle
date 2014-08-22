@@ -1,0 +1,14 @@
+apply plugin: "eclipse"
+
+eclipse {
+    jdt {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+    }
+
+    project {
+        natures "edu.umd.cs.findbugs.plugin.eclipse.findbugsNature", "net.sf.eclipsecs.core.CheckstyleNature"
+        buildCommand "edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder"
+        buildCommand "net.sf.eclipsecs.core.CheckstyleBuilder"
+    }
+}

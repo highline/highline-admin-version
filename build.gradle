@@ -1,0 +1,22 @@
+apply from: "$rootDir/gradle/java.gradle"
+
+
+group = "com.palantir.devex.highline.servlets.version"
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+// ============
+// Dependencies
+// ============
+dependencies {
+    compile "org.eclipse.jetty:jetty-servlet:9.0.7.v20131107"
+
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+}

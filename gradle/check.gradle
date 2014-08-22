@@ -1,0 +1,36 @@
+// ===================
+// Checkstyle Settings
+// ===================
+apply plugin: "checkstyle"
+
+checkstyle {
+    configFile = rootProject.file("codequality/checkstyle.xml")
+}
+
+
+// =================
+// FindBugs Settings
+// =================
+apply plugin: "findbugs"
+
+findbugs {
+  toolVersion = findbugsVersion
+  effort = "max"
+  reportLevel = "low"
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        html.enabled = true
+	xml.enabled = false
+    }
+}
+
+// ===============
+// JaCoCo Settings
+// ===============
+apply plugin: "jacoco"
+
+jacoco {
+  toolVersion = jacocoVersion
+}

@@ -1,0 +1,17 @@
+apply plugin: "java"
+apply from: "$rootDir/gradle/check.gradle"
+apply from: "$rootDir/gradle/idea.gradle"
+apply from: "$rootDir/gradle/eclipse.gradle"
+
+
+// ===============================================
+// Create the source directories for Java projects
+// ===============================================
+task "createDirs" << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
+build {
+    dependsOn "createDirs"
+}
