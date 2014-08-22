@@ -1,4 +1,4 @@
-package com.palantir.highline.servlets.version;
+package com.palantir.highline.admin.version.servlet;
 
 import javax.annotation.Nullable;
 

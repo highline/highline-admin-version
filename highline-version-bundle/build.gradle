@@ -1,0 +1,23 @@
+apply from: "$rootDir/gradle/java.gradle"
+
+
+group = "com.palantir.highline.servlets.version"
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+// ============
+// Dependencies
+// ============
+dependencies {
+    compile project(":highline-version-servlet")
+    compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
+
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+}
