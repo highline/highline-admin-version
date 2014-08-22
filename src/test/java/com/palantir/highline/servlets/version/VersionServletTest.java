@@ -80,8 +80,8 @@ public class VersionServletTest {
         servlet.service(request, response);
 
         verify(response).setStatus(eq(VersionServlet.RESPONSE_STATUS));
-        verify(response).setContentType(eq(VersionServlet.CONTENT_TYPE));
-        verify(response).addHeader(eq(VersionServlet.HEADER_CACHE_CONTROL), eq(VersionServlet.CACHE_CONTROL));
+        verify(response).setContentType(eq(VersionServlet.RESPONSE_CONTENT_TYPE));
+        verify(response).addHeader(eq(VersionServlet.RESPONSE_HEADER_CACHE_CONTROL), eq(VersionServlet.RESPONSE_CACHE_CONTROL));
     }
 
     @Test

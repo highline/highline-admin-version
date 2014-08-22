@@ -8,14 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * A servlet that will return the version of the current application.
+ * <p/>
+ * On GET, returns the version string as `text/plain` with a HTTP 200 response.
+ */
 public class VersionServlet extends HttpServlet {
     private static final long serialVersionUID = -824801600456930313L;
 
-    static final String DEFAULT_MIDFIX = "-dev-";
-    static final int RESPONSE_STATUS = HttpServletResponse.SC_OK;
-    static final String CONTENT_TYPE = "text/plain";
-    static final String HEADER_CACHE_CONTROL = "Cache-Control";
-    static final String CACHE_CONTROL = "must-revalidate,no-cache,no-store";
+    /**
+     * The separater used when building the default version when version detection fails.
+     */
+    public static final String DEFAULT_MIDFIX = "-dev-";
+    public static final int RESPONSE_STATUS = HttpServletResponse.SC_OK;
+    public static final String RESPONSE_CONTENT_TYPE = "text/plain";
+    public static final String RESPONSE_HEADER_CACHE_CONTROL = "Cache-Control";
+    public static final String RESPONSE_CACHE_CONTROL = "must-revalidate,no-cache,no-store";
 
     private final String version;
 
@@ -27,10 +35,27 @@ public class VersionServlet extends HttpServlet {
         this.version = version;
     }
 
+    /**
+     * Returns a servlet with a fixed version. It will always show the provided version.
+     *
+     * @param version the version to always return. It cannot be null.
+     * @return A VersionServlet.
+     */
     public static Servlet withFixedVersion(String version) {
         return new VersionServlet(version);
     }
 
+    /**
+     * Returns a servlet with a detected version. If a version cannot be detected, it will use default prefix to build
+     * a version, using the current timestamp.
+     * <p/>
+     * The default version will have the following pattern:
+     * <p/>
+     * {@code defaultVersionPrefix}-{@link #DEFAULT_MIDFIX}-{@link System#currentTimeMillis()}
+     *
+     * @param defaultVersionPrefix The prefix used to build a version if none can be detected. It cannot be null.
+     * @return A VersionServlet
+     */
     public static Servlet detectVersion(String defaultVersionPrefix) {
         if (defaultVersionPrefix == null) {
             throw new NullPointerException("Default Version Prefix cannot be null.");
@@ -52,8 +77,8 @@ public class VersionServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         response.setStatus(RESPONSE_STATUS);
-        response.setContentType(CONTENT_TYPE);
-        response.addHeader(HEADER_CACHE_CONTROL, CACHE_CONTROL);
+        response.setContentType(RESPONSE_CONTENT_TYPE);
+        response.addHeader(RESPONSE_HEADER_CACHE_CONTROL, RESPONSE_CACHE_CONTROL);
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println(version);
