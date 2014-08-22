@@ -1,5 +1,6 @@
 package com.palantir.highline.admin.version.bundle;
 
+import com.google.common.base.Preconditions;
 import com.palantir.highline.admin.version.servlet.VersionServlet;
 
 import io.dropwizard.Bundle;
@@ -21,5 +22,15 @@ public class AdminVersionBundle implements Bundle {
         environment.admin()
                 .addServlet(SERVLET_NAME, VersionServlet.withFixedVersion(""))
                 .addMapping(SERVLET_URL);
+    }
+
+    public static Bundle withFixedVersion(String version) {
+        Preconditions.checkNotNull(version, "Version cannot be null.");
+        return null;
+    }
+
+    public static Bundle detectVersion(String defaultVersionPrefix) {
+        Preconditions.checkNotNull(defaultVersionPrefix, "Version cannot be null.");
+        return null;
     }
 }

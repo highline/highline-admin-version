@@ -5,6 +5,7 @@ import javax.servlet.ServletRegistration;
 
 import org.junit.Test;
 
+import com.palantir.highline.admin.version.bundle.AdminVersionBundle;
 import com.palantir.highline.admin.version.servlet.VersionServlet;
 
 import io.dropwizard.Bundle;
@@ -37,4 +38,23 @@ public class AdminVersionBundleTest {
         verify(dynamic).addMapping(eq(AdminVersionBundle.SERVLET_URL));
     }
 
+    @Test
+    public void canBuildWithFixedVersion() {
+        AdminVersionBundle.withFixedVersion("1.2.3");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void fixedVersionCannotBeNull() {
+        AdminVersionBundle.withFixedVersion(null);
+    }
+
+    @Test
+    public void canBuildWithDetectVersion() {
+        AdminVersionBundle.detectVersion("4.5.6");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void detectVersionCannotBeNull() {
+        AdminVersionBundle.detectVersion(null);
+    }
 }
