@@ -15,8 +15,11 @@ repositories {
 // ============
 dependencies {
     compile "org.eclipse.jetty:jetty-servlet:9.0.7.v20131107"
+    compile "com.google.code.findbugs:jsr305:1.3.9"
 
     testCompile "junit:junit:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testCompile "org.powermock:powermock-module-junit4:1.5.4"
+    testCompile "org.powermock:powermock-api-mockito:1.5.4"
 }
