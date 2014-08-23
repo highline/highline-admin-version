@@ -1,1 +1,0 @@
-- add tests for version detector
