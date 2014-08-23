@@ -1,1 +1,0 @@
-- add logging for the version being used in the bundle

@@ -2,7 +2,6 @@ package com.palantir.highline.admin.version.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +40,7 @@ public class VersionServlet extends HttpServlet {
      * @param version the version to always return. It cannot be null.
      * @return A VersionServlet.
      */
-    public static Servlet withFixedVersion(String version) {
+    public static VersionServlet withFixedVersion(String version) {
         return new VersionServlet(version);
     }
 
@@ -56,7 +55,7 @@ public class VersionServlet extends HttpServlet {
      * @param defaultVersionPrefix The prefix used to build a version if none can be detected. It cannot be null.
      * @return A VersionServlet
      */
-    public static Servlet detectVersion(String defaultVersionPrefix) {
+    public static VersionServlet detectVersion(String defaultVersionPrefix) {
         if (defaultVersionPrefix == null) {
             throw new NullPointerException("Default Version Prefix cannot be null.");
         }
@@ -83,5 +82,9 @@ public class VersionServlet extends HttpServlet {
         try (PrintWriter writer = response.getWriter()) {
             writer.println(version);
         }
+    }
+
+    public String getVersion() {
+        return version;
     }
 }

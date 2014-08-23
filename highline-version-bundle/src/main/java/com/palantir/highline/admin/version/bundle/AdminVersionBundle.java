@@ -1,6 +1,7 @@
 package com.palantir.highline.admin.version.bundle;
 
-import javax.servlet.Servlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 import com.palantir.highline.admin.version.servlet.VersionServlet;
@@ -25,9 +26,11 @@ public class AdminVersionBundle implements Bundle {
     public static final String SERVLET_NAME = "version-servlet";
     public static final String SERVLET_URL = "/version";
 
-    private final Servlet versionServlet;
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersionServlet.class);
 
-    AdminVersionBundle(Servlet versionServlet) {
+    private final VersionServlet versionServlet;
+
+    AdminVersionBundle(VersionServlet versionServlet) {
         this.versionServlet = versionServlet;
     }
 
@@ -65,5 +68,7 @@ public class AdminVersionBundle implements Bundle {
         environment.admin()
                 .addServlet(SERVLET_NAME, versionServlet)
                 .addMapping(SERVLET_URL);
+
+        LOGGER.debug("Version Servlet loaded. Using Version: {}", versionServlet.getVersion());
     }
 }

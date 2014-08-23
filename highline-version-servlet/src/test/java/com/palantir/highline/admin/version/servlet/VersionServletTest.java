@@ -119,4 +119,12 @@ public class VersionServletTest {
     public void detectVersionDefaultCannotBeNull() {
         VersionServlet.detectVersion(null);
     }
+
+    @Test
+    public void canGetVersion() {
+        String version = "1.2.3";
+        VersionServlet versionServlet = VersionServlet.withFixedVersion(version);
+
+        assertThat(versionServlet.getVersion(), equalTo(version));
+    }
 }

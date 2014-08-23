@@ -1,9 +1,10 @@
 package com.palantir.highline.admin.version.bundle;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletRegistration;
 
 import org.junit.Test;
+
+import com.palantir.highline.admin.version.servlet.VersionServlet;
 
 import io.dropwizard.Bundle;
 import io.dropwizard.setup.AdminEnvironment;
@@ -20,19 +21,19 @@ public class AdminVersionBundleTest {
 
     @Test
     public void addsServlet() {
-        Servlet servlet = mock(Servlet.class);
-        Bundle bundle = new AdminVersionBundle(servlet);
+        VersionServlet versionServlet = mock(VersionServlet.class);
+        Bundle bundle = new AdminVersionBundle(versionServlet);
 
         Environment environment = mock(Environment.class);
         AdminEnvironment adminEnvironment = mock(AdminEnvironment.class);
         ServletRegistration.Dynamic dynamic = mock(ServletRegistration.Dynamic.class);
 
         when(environment.admin()).thenReturn(adminEnvironment);
-        when(adminEnvironment.addServlet(anyString(), any(Servlet.class))).thenReturn(dynamic);
+        when(adminEnvironment.addServlet(anyString(), any(VersionServlet.class))).thenReturn(dynamic);
 
         bundle.run(environment);
 
-        verify(adminEnvironment).addServlet(eq(AdminVersionBundle.SERVLET_NAME), eq(servlet));
+        verify(adminEnvironment).addServlet(eq(AdminVersionBundle.SERVLET_NAME), eq(versionServlet));
         verify(dynamic).addMapping(eq(AdminVersionBundle.SERVLET_URL));
     }
 
