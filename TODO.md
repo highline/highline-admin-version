@@ -1,1 +1,2 @@
-- add tests for version detector
+- add a readme
+- add logging for the version being used in the bundle
