@@ -4,6 +4,7 @@ highline-admin-version
 Add an admin endpoint to a Dropwizard application that reports the version of the service, available
 at: `http://ip:adminPort/version`.
 
+Java 1.7+ is required.
 
 Returning a Version
 -------------------
